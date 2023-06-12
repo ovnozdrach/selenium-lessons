@@ -11,7 +11,7 @@ def driver(request):
     return wd
 
 
-def test_admin_items(driver):
+def test_product_stickers(driver):
     # main page
     driver.get("http://localhost/litecart")
 
