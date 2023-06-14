@@ -20,10 +20,10 @@ def test_country_order(driver):
     psw_field.send_keys('admin')
     button_login = driver.find_element("name", "login")
     button_login.click()
-    driver.get("http://localhost/litecart/admin/?app=countries&doc=countries")
 
     # main test
-    rows = driver.find_elements(By.CSS_SELECTOR, "#content > form > table > tbody > tr.row")
+    driver.get("http://localhost/litecart/admin/?app=countries&doc=countries")
+    rows = driver.find_elements(By.CSS_SELECTOR, "table > tbody > tr.row")
     countries = []
     multi_zone_countries = []
     for row in rows:
@@ -31,18 +31,17 @@ def test_country_order(driver):
         countries.append(name)
         if row.find_element(By.CSS_SELECTOR, "td:nth-child(6)").get_attribute("textContent") != "0":
             multi_zone_countries.append(name)
-        assert True
-
     # check country list order
-    assert countries == sorted(countries), f"The country list is not sorted: {countries}"
     print(f"The country list: {countries}")
+    assert countries == sorted(countries), f"The country list is not sorted: {countries}"
+
     print(f"The multi zone countries: {multi_zone_countries}")
-
     for country in multi_zone_countries:
-        print(f"Checking zones for country: {country}...")
-        driver.find_element(By.XPATH, f"//*[contains(text(), {country})]").click()
-        zones = driver.find_element(By.CSS_SELECTOR, "#table-zones > tbody > tr").get_attribute("textContent")
-        assert zones == sorted(zones), f"The zone list is not sorted: {zones}"
-
-
-
+        print(f"Checking zones for country: {country}")
+        driver.find_element(By.XPATH, f"//a[.='{country}']").click()
+        zones = driver.find_elements(By.CSS_SELECTOR, "td:nth-child(3) > input[type=hidden]")
+        zone_list = [zone.get_attribute("value") for zone in zones]
+        print(f"The zone list in {country}: {zone_list}")
+        # check zone list order
+        assert zone_list == sorted(zone_list), f"The zone list is not sorted: {zone_list}"
+        driver.get("http://localhost/litecart/admin/?app=countries&doc=countries")
