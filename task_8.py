@@ -39,8 +39,8 @@ def test_country_order(driver):
     for country in multi_zone_countries:
         print(f"Checking zones for country: {country}")
         driver.find_element(By.XPATH, f"//a[.='{country}']").click()
-        zones = driver.find_elements(By.CSS_SELECTOR, "td:nth-child(3) > input[type=hidden]")
-        zone_list = [zone.get_attribute("value") for zone in zones]
+        zones = driver.find_elements(By.CSS_SELECTOR, "#table-zones td:nth-child(3)")
+        zone_list = [zone.text for zone in zones if zone.text]
         print(f"The zone list in {country}: {zone_list}")
         # check zone list order
         assert zone_list == sorted(zone_list), f"The zone list is not sorted: {zone_list}"
