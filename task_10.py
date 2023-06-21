@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 @pytest.fixture
 def driver(request):
     wd = webdriver.Chrome()
+    # wd = webdriver.Firefox()
+    # wd = webdriver.Safari()
     wd.implicitly_wait(1)
     request.addfinalizer(wd.quit)
     return wd
@@ -26,14 +28,14 @@ def test_correct_page(driver):
     print(f"regular_price: {regular_price}\ncampaign_price: {campaign_price}")
 
     color_regular = box.find_element(By.CSS_SELECTOR, "s.regular-price").value_of_css_property("color")
-    r_g_b_regular = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', color_regular).groups()
+    r_g_b_regular = re.search(r'[rgba?]\((\d+),\s*(\d+),\s*(\d+)', color_regular).groups()
     strike_regular = box.find_element(By.CSS_SELECTOR, "s.regular-price").value_of_css_property("text-decoration-line")
     print(f"color_regular: {color_regular}\nstrike_regular: {strike_regular}")
 
     weight_campaign = box.find_element(By.CSS_SELECTOR, "strong.campaign-price").value_of_css_property("font-weight")
     color_campaign = box.find_element(By.CSS_SELECTOR, "strong.campaign-price").value_of_css_property("color")
     print(f"weight_campaign: {weight_campaign}\ncolor_campaign: {color_campaign}")
-    r_g_b_campaign = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', color_campaign).groups()
+    r_g_b_campaign = re.search(r'rgba?\((\d+),\s*(\d+),\s*(\d+)', color_campaign).groups()
 
     regular_font = box.find_element(By.CSS_SELECTOR, "s.regular-price").value_of_css_property("font-size")
     campaign_font = box.find_element(By.CSS_SELECTOR, "strong.campaign-price").value_of_css_property("font-size")
@@ -52,7 +54,7 @@ def test_correct_page(driver):
     print(f"regular_price_pr: {regular_price_pr}\ncampaign_price_pr: {campaign_price_pr}")
 
     color_regular_pr = box.find_element(By.CSS_SELECTOR, "s.regular-price").value_of_css_property("color")
-    r_g_b_reg_pr = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', color_regular_pr).groups()
+    r_g_b_reg_pr = re.search(r'rgba?\((\d+),\s*(\d+),\s*(\d+)', color_regular_pr).groups()
     strike_reg_pr = box.find_element(
         By.CSS_SELECTOR, "s.regular-price").value_of_css_property("text-decoration-line")
     print(f"color_regular_pr: {color_regular_pr}\nstrike_reg_pr: {strike_reg_pr}")
@@ -60,7 +62,7 @@ def test_correct_page(driver):
     weight_campaign_pr = box.find_element(By.CSS_SELECTOR, "strong.campaign-price").value_of_css_property("font-weight")
     color_campaign_pr = box.find_element(By.CSS_SELECTOR, "strong.campaign-price").value_of_css_property("color")
     print(f"weight_campaign_pr: {weight_campaign_pr}\ncolor_campaign_pr: {color_campaign_pr}")
-    r_g_b_campaign_pr = re.search(r'rgba\((\d+),\s*(\d+),\s*(\d+)', color_campaign_pr).groups()
+    r_g_b_campaign_pr = re.search(r'rgba?\((\d+),\s*(\d+),\s*(\d+)', color_campaign_pr).groups()
 
     regular_font_pr = box.find_element(By.CSS_SELECTOR, "s.regular-price").value_of_css_property("font-size")
     campaign_font_pr = box.find_element(By.CSS_SELECTOR, "strong.campaign-price").value_of_css_property("font-size")
