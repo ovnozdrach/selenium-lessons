@@ -5,12 +5,14 @@ import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 @pytest.fixture
 def driver(request):
-    wd = webdriver.Chrome()
+    # wd = webdriver.Chrome()
+    wd = webdriver.Firefox()
     wd.implicitly_wait(1)
     request.addfinalizer(wd.quit)
     return wd
@@ -28,8 +30,8 @@ def test_user_registration(driver):
     index = random.randint(10001, 99999)
     driver.find_element(By.CSS_SELECTOR, "input[name=postcode]").send_keys(str(index))
     driver.find_element(By.CSS_SELECTOR, "input[name=city]").send_keys("Some_city")
-    country = Select(driver.find_element(By.CSS_SELECTOR, "select[name=country_code]"))
-    country.select_by_visible_text("United States")
+    country = driver.find_element(By.CSS_SELECTOR, ".select2")
+    ActionChains(driver).move_to_element(country).click().send_keys("United States").send_keys(Keys.RETURN).perform()
     email = ''.join(random.choice(string.ascii_lowercase) for _ in range(10)) + '@yandex.com'
     driver.find_element(By.CSS_SELECTOR, "input[name=email]").send_keys(email)
     phone = random.randint(10000000000, 19999999999)
