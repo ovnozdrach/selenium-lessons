@@ -14,7 +14,7 @@ def driver(request):
     return wd
 
 
-def test_new_addition(driver):
+def test_working_with_cart(driver):
     # login
     driver.get("http://localhost/litecart/en/")
 
