@@ -39,6 +39,5 @@ def test_working_with_cart(driver):
         order_table = driver.find_element(By.CSS_SELECTOR, "table.dataTable")
         delete_buttons = driver.find_elements(By.CSS_SELECTOR, "button[name=remove_cart_item]")
         wait.until(EC.visibility_of(delete_buttons[0])).click()
-        driver.refresh()
         wait.until(EC.staleness_of(order_table))
         items = driver.find_elements(By.CSS_SELECTOR, "ul.items > li")
