@@ -5,6 +5,11 @@ from selenium.webdriver.common.by import By
 
 @pytest.fixture
 def driver(request):
+    # # чтобы уронить тетст, можно повысить уровень слежения за логами:
+    # options = webdriver.ChromeOptions()
+    # options.set_capability("goog:loggingPrefs", {'browser': 'ALL'})
+    # wd = webdriver.Chrome(options=options)
+
     wd = webdriver.Chrome()
     wd.implicitly_wait(10)
     request.addfinalizer(wd.quit)
